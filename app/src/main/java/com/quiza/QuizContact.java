@@ -3,6 +3,9 @@ package com.quiza;
 import android.provider.BaseColumns;
 
 public final class QuizContact {
+
+    private QuizContact(){}
+
     public static class QuestionTable implements BaseColumns {
         public static final String TABLE_NAME = "quiz_qestions";
         public static final String COLUMN_QUESTION = "question";
