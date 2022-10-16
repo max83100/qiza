@@ -18,7 +18,7 @@ public class QuizDbHelper extends SQLiteOpenHelper {
 
     private SQLiteDatabase db;
 
-    public QuizDbHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+    public QuizDbHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
