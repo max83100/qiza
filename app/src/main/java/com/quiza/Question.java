@@ -17,11 +17,11 @@ public class Question {
         this.answer_number = answer_number;
     }
 
-    public String getQiuestion() {
+    public String getQuestion() {
         return qiuestion;
     }
 
-    public void setQiuestion(String qiuestion) {
+    public void setQuestion(String qiuestion) {
         this.qiuestion = qiuestion;
     }
 
