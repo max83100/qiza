@@ -39,6 +39,7 @@ public class QuizActivity extends AppCompatActivity {
     private boolean answered;
 
     private List<Question> questionList;
+    Bundle bundle = new Bundle();
 
 
     @Override
@@ -153,9 +154,15 @@ public class QuizActivity extends AppCompatActivity {
 
 
     private void finishQuiz() {
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra(EXTRA_SCORE,score)
-        setResult(RESULT_OK);
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Intent intent = new Intent(this, StartingScreenActivity.class);
+        bundle.putInt("key", score);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        super.onDestroy();
     }
 }
