@@ -16,8 +16,9 @@ public class StartingScreenActivity extends AppCompatActivity {
 
     private TextView textHighscore;
     private int highscore;
-    Bundle bundle = getIntent().getExtras();
-    int newscore = bundle.getInt("key");
+//    Bundle bundle = getIntent().getExtras();
+//    int newscore = bundle.getInt("key");
+    int newscore = 0;
 
 
 
@@ -31,12 +32,7 @@ public class StartingScreenActivity extends AppCompatActivity {
 
         textHighscore = findViewById(R.id.text_score);
         loadHighscore();
-        start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startQuiz();
-            }
-        });
+        start.setOnClickListener(view -> startQuiz());
     }
 
     private void startQuiz() {
@@ -46,14 +42,7 @@ public class StartingScreenActivity extends AppCompatActivity {
 
     }
 
-    protected void onActivityResul(Intent data) {
 
-                if(newscore > highscore){
-                    updateHighScore(newscore);
-                }
-
-
-    }
 
     private void loadHighscore(){
         textHighscore.setText("Общий счёт: " + newscore);
