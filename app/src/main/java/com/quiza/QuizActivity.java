@@ -1,5 +1,6 @@
 package com.quiza;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -22,6 +23,12 @@ import java.util.Locale;
 public class QuizActivity extends AppCompatActivity {
 
     public static final String EXTRA_SCORE = "extra_score";
+
+    private static final String KEY_SCORE = "keyScore";
+    private static final String KEY_QUESTION_COUNT = "keyQuestionCount";
+    private static final String KEY_MILLIS_LEFT = "keyMillisLeft";
+    private static final String KEY_ANSWERED = "keyAnswered";
+    private static final String KEY_QUESTION_LIST = "keyQuestionList";
 
     private TextView textViewQuestion;
     private TextView textViewScore ;
@@ -224,5 +231,15 @@ public class QuizActivity extends AppCompatActivity {
         if(countDownTimer != null){
             countDownTimer.cancel();
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(KEY_SCORE,score);
+        outState.putInt(KEY_QUESTION_COUNT,questionCounter);
+        outState.putLong(KEY_MILLIS_LEFT,timeLiftInMillis);
+        outState.putBoolean(KEY_ANSWERED,answered);
+        outState.putParcelableArrayList(KEY_QUESTION_LIST,questionList);
     }
 }
