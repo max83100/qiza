@@ -16,13 +16,14 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
 public class QuizActivity extends AppCompatActivity {
 
-    public static final String EXTRA_SCORE = "extra_score";
+
 
     private static final String KEY_SCORE = "keyScore";
     private static final String KEY_QUESTION_COUNT = "keyQuestionCount";
@@ -53,7 +54,7 @@ public class QuizActivity extends AppCompatActivity {
     private int score = 0;
     private boolean answered;
 
-    private List<Question> questionList;
+    private ArrayList<Question> questionList;
     Bundle bundle = new Bundle();
     private long backPressedTime;
     private static final long COUNTDOWN_IN_MILLS = 30000;

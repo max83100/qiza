@@ -1,6 +1,9 @@
 package com.quiza;
 
-public class Question {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Question  implements Parcelable {
     private String qiuestion;
     private String option1;
     private String option2;
@@ -16,6 +19,26 @@ public class Question {
         this.option3 = option3;
         this.answer_number = answer_number;
     }
+
+    protected Question(Parcel in) {
+        qiuestion = in.readString();
+        option1 = in.readString();
+        option2 = in.readString();
+        option3 = in.readString();
+        answer_number = in.readInt();
+    }
+
+    public static final Creator<Question> CREATOR = new Creator<Question>() {
+        @Override
+        public Question createFromParcel(Parcel in) {
+            return new Question(in);
+        }
+
+        @Override
+        public Question[] newArray(int size) {
+            return new Question[size];
+        }
+    };
 
     public String getQuestion() {
         return qiuestion;
@@ -55,5 +78,19 @@ public class Question {
 
     public void setAnswer_number(int answer_number) {
         this.answer_number = answer_number;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(qiuestion);
+        parcel.writeString(option1);
+        parcel.writeString(option2);
+        parcel.writeString(option3);
+        parcel.writeInt(answer_number);
     }
 }
