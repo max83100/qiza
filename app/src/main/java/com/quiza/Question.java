@@ -3,14 +3,13 @@ package com.quiza;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Question  implements Parcelable {
+public class Question implements Parcelable {
     private String qiuestion;
     private String option1;
     private String option2;
     private String option3;
     private int answer_number;
 
-    public Question() {}
 
     public Question(String qiuestion, String option1, String option2, String option3, int answer_number) {
         this.qiuestion = qiuestion;

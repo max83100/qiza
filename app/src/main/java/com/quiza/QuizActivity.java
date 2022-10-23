@@ -16,12 +16,16 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.quiza.data.Db_data;
+import com.quiza.data.Db_helper;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
 public class QuizActivity extends AppCompatActivity {
+
 
 
 
@@ -54,8 +58,8 @@ public class QuizActivity extends AppCompatActivity {
     private int score = 0;
     private boolean answered;
 
-    private ArrayList<Question> questionList;
-    Bundle bundle = new Bundle();
+    private ArrayList<Question> questionList = new ArrayList<>();
+
     private long backPressedTime;
     private static final long COUNTDOWN_IN_MILLS = 30000;
 
@@ -64,6 +68,9 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+
+
+
 
         textViewQuestion = findViewById(R.id.text_question);
         textViewScore = findViewById(R.id.score_quiz);
@@ -76,17 +83,37 @@ public class QuizActivity extends AppCompatActivity {
         confirmNext = findViewById(R.id.check_answer);
         textViewCountDown = findViewById(R.id.timer);
 
+        if(savedInstanceState == null) {
+            Db_helper dbHelper = new Db_helper(this);;
+            questionList = dbHelper.getAllData();
+            questionCountTotal = questionList.size();
+            Collections.shuffle(questionList);
 
-        QuizDbHelper dbHelper = new QuizDbHelper(this);
-        questionList = dbHelper.getAllQuestions();
-        questionCountTotal = questionList.size();
-        Collections.shuffle(questionList);
+            showNextQuestion();
+        }
+        else{
+            questionList = savedInstanceState.getParcelableArrayList(KEY_QUESTION_LIST);
+            questionCountTotal = questionList.size();
+            questionCounter = savedInstanceState.getInt(KEY_QUESTION_COUNT);
+            currenrQuestion = questionList.get(questionCounter - 1);
+            score = savedInstanceState.getInt(KEY_SCORE);
+            timeLiftInMillis = savedInstanceState.getLong(KEY_MILLIS_LEFT);
+            answered = savedInstanceState.getBoolean(KEY_ANSWERED);
+
+            if(!answered){
+                startCountDown();
+            }
+            else{
+                updateCountDownText();
+                showSolution();
+            }
+        }
 
         textColorsDefaultRb = rb1.getLinkTextColors();
         textColorsDefaultCd = textViewCountDown.getLinkTextColors();
 
 
-        showNextQuestion();
+
 
         confirmNext.setOnClickListener(view -> {
             if(!answered){
@@ -106,13 +133,13 @@ public class QuizActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     private void showNextQuestion() {
-        rb1.setTextColor(textColorsDefaultRb);
-        rb2.setTextColor(textColorsDefaultRb);
-        rb3.setTextColor(textColorsDefaultRb);
+        rb1.setTextColor(Color.BLACK);
+        rb2.setTextColor(Color.BLACK);
+        rb3.setTextColor(Color.BLACK);
         rbGroup.clearCheck();
 
         if(questionCounter < questionCountTotal){
-            currenrQuestion = questionList.get(questionCounter);
+            currenrQuestion = questionList.get(1);
             textViewQuestion.setText(currenrQuestion.getQuestion());
             rb1.setText(currenrQuestion.getOption1());
             rb2.setText(currenrQuestion.getOption2());
