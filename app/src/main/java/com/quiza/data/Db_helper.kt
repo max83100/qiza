@@ -1,80 +1,73 @@
-package com.quiza.data;
+package com.quiza.data
 
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
-import android.widget.Toast;
+import android.content.Context
+import com.readystatesoftware.sqliteasset.SQLiteAssetHelper
+import com.quiza.data.Db_helper
+import com.quiza.Question
+import android.database.sqlite.SQLiteDatabase
+import android.widget.Toast
+import android.database.sqlite.SQLiteQueryBuilder
+import java.lang.Exception
+import java.util.ArrayList
 
-import com.quiza.Question;
-import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
-
-import java.util.ArrayList;
-
-public class Db_helper extends SQLiteAssetHelper {
-    private static final String DATABASE_NAME = "quiz.db";
-    private static final int DATABASE_VERSION = 1;
-    Context context;
-
-
-    public Db_helper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.context = context;
-        setForcedUpgrade(3);
-    }
-    public ArrayList<Question> getAllData(){
-        try {
-            ArrayList<Question> list = new ArrayList<>();
-            SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-            if(sqLiteDatabase != null){
-                Cursor cursor = sqLiteDatabase.rawQuery("select * from quiz",null);
-                if(cursor.getCount() != 0){
-                    while (cursor.moveToNext()){
-                        String question_text = cursor.getString(1);
-                        String option1 = cursor.getString(2);
-                        String option2 = cursor.getString(3);
-                        String option3 = cursor.getString(4);
-                        int right_answer = cursor.getInt(5);
-
-                        list.add(new Question(question_text,option1,option2,option3,right_answer));
+class Db_helper(var context: Context) : SQLiteAssetHelper(
+    context, DATABASE_NAME, null, DATABASE_VERSION
+) {
+    val allData: ArrayList<Question>?
+        get() = try {
+            val list = ArrayList<Question>()
+            val sqLiteDatabase = writableDatabase
+            if (sqLiteDatabase != null) {
+                val cursor = sqLiteDatabase.rawQuery("select * from quiz", null)
+                if (cursor.count != 0) {
+                    while (cursor.moveToNext()) {
+                        val question_text = cursor.getString(1)
+                        val option1 = cursor.getString(2)
+                        val option2 = cursor.getString(3)
+                        val option3 = cursor.getString(4)
+                        val right_answer = cursor.getInt(5)
+                        list.add(Question(question_text, option1, option2, option3, right_answer))
                     }
-                    return list;
+                    list
+                } else {
+                    Toast.makeText(context, "No data retired", Toast.LENGTH_SHORT).show()
+                    null
                 }
-                else {
-                    Toast.makeText(context, "No data retired", Toast.LENGTH_SHORT).show();
-                    return null;
-                }
+            } else {
+                Toast.makeText(context, "Data is null", Toast.LENGTH_SHORT).show()
+                null
             }
-            else {
-                Toast.makeText(context, "Data is null", Toast.LENGTH_SHORT).show();
-                return null;
-            }
-
-
-        } catch (Exception e) {
-            Toast.makeText(context, "getalldata" + e.getMessage(), Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-            return null;
+        } catch (e: Exception) {
+            Toast.makeText(context, "getalldata" + e.message, Toast.LENGTH_SHORT).show()
+            e.printStackTrace()
+            null
         }
+    val upgradeVersion: Int
+        get() {
+            val db = readableDatabase
+            val qb = SQLiteQueryBuilder()
+            val sqlSelect = arrayOf("MAX (version)")
+            val sqlTables = "upgrades"
+            qb.tables = sqlTables
+            val c = qb.query(
+                db, sqlSelect, null, null,
+                null, null, null
+            )
+            var v = 0
+            c.moveToFirst()
+            if (!c.isAfterLast) {
+                v = c.getInt(0)
+            }
+            c.close()
+            return v
+        }
+
+    companion object {
+        private const val DATABASE_NAME = "quiz.db"
+        private const val DATABASE_VERSION = 1
     }
-    public int getUpgradeVersion() {
 
-        SQLiteDatabase db = getReadableDatabase();
-        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-
-        String [] sqlSelect = {"MAX (version)"};
-        String sqlTables = "upgrades";
-
-        qb.setTables(sqlTables);
-        Cursor c = qb.query(db, sqlSelect, null, null,
-                null, null, null);
-
-        int v = 0;
-        c.moveToFirst();
-        if (!c.isAfterLast()) {
-            v = c.getInt(0);
-        }
-        c.close();
-        return v;
+    init {
+        setForcedUpgrade(3)
     }
 }
