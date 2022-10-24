@@ -91,7 +91,7 @@ class QuizActivity : AppCompatActivity() {
         rb1.setTextColor(Color.BLACK)
         rb2.setTextColor(Color.BLACK)
         rb3.setTextColor(Color.BLACK)
-        rbGroup!!.clearCheck()
+        rbGroup.clearCheck()
         if (questionCounter < questionCountTotal) {
             currenrQuestion = questionList!![questionCounter]
             textViewQuestion!!.text = currenrQuestion!!.question
