@@ -95,7 +95,7 @@ class QuizActivity : AppCompatActivity() {
         if (questionCounter < questionCountTotal) {
             currenrQuestion = questionList!![questionCounter]
             textViewQuestion.text = currenrQuestion.question
-            rb1.text = currenrQuestion!!.option1
+            rb1.text = currenrQuestion.option1
             rb2.text = currenrQuestion!!.option2
             rb3.text = currenrQuestion!!.option3
             questionCounter++
