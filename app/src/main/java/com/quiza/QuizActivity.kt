@@ -99,7 +99,7 @@ class QuizActivity : AppCompatActivity() {
             rb2.text = currenrQuestion.option2
             rb3.text = currenrQuestion.option3
             questionCounter++
-            textViewQuestionCount!!.text = "Вопрос: $questionCounter из $questionCountTotal"
+            textViewQuestionCount.text = "Вопрос: $questionCounter из $questionCountTotal"
             answered = false
             confirmNext.text = "Проверить"
             timeLiftInMillis = COUNTDOWN_IN_MILLS
