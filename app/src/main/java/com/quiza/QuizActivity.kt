@@ -139,7 +139,7 @@ class QuizActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun checkAnswer() {
         answered = true
-        countDownTimer!!.cancel()
+        countDownTimer.cancel()
         val rbSelected = findViewById<RadioButton>(rbGroup!!.checkedRadioButtonId)
         val answerNr = rbGroup!!.indexOfChild(rbSelected) + 1
         if (answerNr == currenrQuestion!!.answer_number) {
