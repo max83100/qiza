@@ -18,7 +18,7 @@ class Db_helper(var context: Context) : SQLiteAssetHelper(
             val list = ArrayList<Question>()
             val sqLiteDatabase = writableDatabase
             if (sqLiteDatabase != null) {
-                val cursor = sqLiteDatabase.rawQuery("select * from quiz", null)
+                val cursor = sqLiteDatabase.rawQuery("select * from android", null)
                 if (cursor.count != 0) {
                     while (cursor.moveToNext()) {
                         val question_text = cursor.getString(1)
@@ -26,7 +26,8 @@ class Db_helper(var context: Context) : SQLiteAssetHelper(
                         val option2 = cursor.getString(3)
                         val option3 = cursor.getString(4)
                         val right_answer = cursor.getInt(5)
-                        list.add(Question(question_text, option1, option2, option3, right_answer))
+                        val explain = cursor.getString(6)
+                        list.add(Question(question_text, option1, option2, option3, right_answer,explain))
                     }
                     list
                 } else {

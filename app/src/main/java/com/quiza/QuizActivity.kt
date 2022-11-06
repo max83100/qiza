@@ -1,6 +1,7 @@
 package com.quiza
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.os.CountDownTimer
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.quiza.data.Db_helper
 import java.util.*
 
@@ -19,6 +21,7 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var textViewCountDown: TextView
     private lateinit var rbGroup: RadioGroup
     private lateinit var rb1: RadioButton
+    private var explain: FloatingActionButton? = null
     private lateinit var rb2: RadioButton
     private lateinit var rb3: RadioButton
     private lateinit var confirmNext: Button
@@ -88,6 +91,7 @@ class QuizActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun showNextQuestion() {
+        explain?.setVisibility(View.GONE)
         rb1.setTextColor(Color.BLACK)
         rb2.setTextColor(Color.BLACK)
         rb3.setTextColor(Color.BLACK)
@@ -104,6 +108,7 @@ class QuizActivity : AppCompatActivity() {
             confirmNext.text = "Проверить"
             timeLiftInMillis = COUNTDOWN_IN_MILLS
             startCountDown()
+
         } else {
             finishQuiz()
         }
@@ -169,6 +174,15 @@ class QuizActivity : AppCompatActivity() {
         }
         if (questionCounter < questionCountTotal) {
             confirmNext.text = "Следующий"
+            explain = findViewById(R.id.explain)
+            explain!!.setVisibility(View.VISIBLE)
+            explain?.setOnClickListener(View.OnClickListener {
+                val intent = Intent(this@QuizActivity, ExplainActivity::class.java)
+                intent.putExtra("explainText", currenrQuestion.explain)
+                startActivity(intent)
+            })
+
+
         } else {
             confirmNext.text = "Финиш"
         }
