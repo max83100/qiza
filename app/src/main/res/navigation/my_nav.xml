@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/categoryFragment"
-        android:name="com.quiza.CategoryFragment"
+        android:name="com.quiza.ui.CategoryFragment"
         android:label="fragment_category"
         tools:layout="@layout/fragment_category" >
         <action
@@ -58,5 +58,8 @@
         <action
             android:id="@+id/quizFragment_to_explainFragment"
             app:destination="@id/explainFragment" />
+        <action
+            android:id="@+id/action_quizFragment_to_categoryFragment2"
+            app:destination="@id/categoryFragment" />
     </fragment>
 </navigation>

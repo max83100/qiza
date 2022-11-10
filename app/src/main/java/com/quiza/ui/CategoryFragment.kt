@@ -1,19 +1,21 @@
 package com.quiza.ui
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.ImageView
 import androidx.navigation.fragment.findNavController
+import com.quiza.OnDataPass
 
 import com.quiza.R
 
 
-class CategoryFragment : Fragment() {
+class CategoryFragment : Fragment(),OnDataPass {
     private lateinit var android_category: ImageButton
+    lateinit var dataPasser: OnDataPass
 
 
     override fun onCreateView(
@@ -28,6 +30,12 @@ class CategoryFragment : Fragment() {
         }
 
         return view
+    }
+
+
+
+    override fun onDataPass(data: String) {
+        dataPasser.onDataPass(data)
     }
 
 

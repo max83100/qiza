@@ -7,12 +7,19 @@ import com.quiza.Question
 import android.database.sqlite.SQLiteDatabase
 import android.widget.Toast
 import android.database.sqlite.SQLiteQueryBuilder
+import android.util.Log
+import com.quiza.OnDataPass
 import java.lang.Exception
 import java.util.ArrayList
 
 class Db_helper(var context: Context) : SQLiteAssetHelper(
     context, DATABASE_NAME, null, DATABASE_VERSION
-) {
+),OnDataPass {
+    var tab_name: String = ""
+    override fun onDataPass(data: String) {
+        tab_name = data
+        Log.d("LOG","hello " + data)
+    }
     val allData: ArrayList<Question>?
         get() = try {
             val list = ArrayList<Question>()
