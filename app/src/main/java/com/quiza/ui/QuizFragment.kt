@@ -1,19 +1,24 @@
-package com.quiza
+package com.quiza.ui
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.quiza.Question
+import com.quiza.R
 import com.quiza.data.Db_helper
 import java.util.*
 
-class QuizActivity : AppCompatActivity() {
+
+class QuizFragment : Fragment() {
 
     private lateinit var textViewQuestion: TextView
     private lateinit var textViewScore: TextView
@@ -37,36 +42,41 @@ class QuizActivity : AppCompatActivity() {
     private var questionList: ArrayList<Question>? = ArrayList()
     private var backPressedTime: Long = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_quiz)
-        textViewQuestion = findViewById(R.id.text_question)
-        textViewScore = findViewById(R.id.score_quiz)
-        textViewQuestionCount = findViewById(R.id.text_qty_count)
-        textViewCountDown = findViewById(R.id.timer)
-        rbGroup = findViewById(R.id.radio_group)
 
-        rb1 = findViewById(R.id.radio_button1)
-        rb2 = findViewById(R.id.radio_button2)
-        rb3 = findViewById(R.id.radio_button3)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view =  inflater.inflate(R.layout.fragment_quiz, container, false)
 
 
-        confirmNext = findViewById(R.id.check_answer)
-        textViewCountDown = findViewById(R.id.timer)
+        textViewQuestion = view.findViewById(R.id.text_question)
+        textViewScore = view.findViewById(R.id.score_quiz)
+        textViewQuestionCount = view.findViewById(R.id.text_qty_count)
+        textViewCountDown = view.findViewById(R.id.timer)
+        rbGroup = view.findViewById(R.id.radio_group)
+
+        rb1 = view.findViewById(R.id.radio_button1)
+        rb2 = view.findViewById(R.id.radio_button2)
+        rb3 = view.findViewById(R.id.radio_button3)
+
+
+        confirmNext = view.findViewById(R.id.check_answer)
+        textViewCountDown = view.findViewById(R.id.timer)
         if (savedInstanceState == null) {
-            val dbHelper = Db_helper(this)
+            val dbHelper = Db_helper(view.context)
             questionList = dbHelper.allData
             questionCountTotal = questionList!!.size
             questionList?.let { Collections.shuffle(it) }
             showNextQuestion()
         } else {
-            questionList = savedInstanceState.getParcelableArrayList(KEY_QUESTION_LIST)
+            questionList = savedInstanceState.getParcelableArrayList(QuizFragment.KEY_QUESTION_LIST)
             questionCountTotal = questionList!!.size
-            questionCounter = savedInstanceState.getInt(KEY_QUESTION_COUNT)
+            questionCounter = savedInstanceState.getInt(QuizFragment.KEY_QUESTION_COUNT)
             currenrQuestion = questionList!![questionCounter - 1]
-            score = savedInstanceState.getInt(KEY_SCORE)
-            timeLiftInMillis = savedInstanceState.getLong(KEY_MILLIS_LEFT)
-            answered = savedInstanceState.getBoolean(KEY_ANSWERED)
+            score = savedInstanceState.getInt(QuizFragment.KEY_SCORE)
+            timeLiftInMillis = savedInstanceState.getLong(QuizFragment.KEY_MILLIS_LEFT)
+            answered = savedInstanceState.getBoolean(QuizFragment.KEY_ANSWERED)
             if (!answered) {
                 startCountDown()
             } else {
@@ -81,12 +91,18 @@ class QuizActivity : AppCompatActivity() {
                 if (rb1.isChecked() || rb2.isChecked() || rb3.isChecked()) {
                     checkAnswer()
                 } else {
-                    Toast.makeText(this@QuizActivity, "Выберите ответ", Toast.LENGTH_LONG).show()
+
+                    if (view != null) {
+                        Toast.makeText(view.context, "Выберите ответ", Toast.LENGTH_LONG).show()
+                    }
+
                 }
             } else {
                 showNextQuestion()
             }
         }
+
+        return view
     }
 
     @SuppressLint("SetTextI18n")
@@ -145,7 +161,7 @@ class QuizActivity : AppCompatActivity() {
     private fun checkAnswer() {
         answered = true
         countDownTimer.cancel()
-        val rbSelected = findViewById<RadioButton>(rbGroup!!.checkedRadioButtonId)
+        val rbSelected = view?.findViewById<RadioButton>(rbGroup!!.checkedRadioButtonId)
         val answerNr = rbGroup!!.indexOfChild(rbSelected) + 1
         if (answerNr == currenrQuestion!!.answer_number) {
             score += 1
@@ -174,12 +190,10 @@ class QuizActivity : AppCompatActivity() {
         }
         if (questionCounter < questionCountTotal) {
             confirmNext.text = "Следующий"
-            explain = findViewById(R.id.explain)
+            explain = view?.findViewById(R.id.explain)
             explain!!.setVisibility(View.VISIBLE)
             explain?.setOnClickListener(View.OnClickListener {
-                val intent = Intent(this@QuizActivity, ExplainActivity::class.java)
-                intent.putExtra("explainText", currenrQuestion.explain)
-                startActivity(intent)
+                findNavController().navigate(R.id.quizFragment_to_explainFragment)
             })
 
 
@@ -189,24 +203,21 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun finishQuiz() {
-        finish()
+        onDestroyView()
     }
 
-    override fun onBackPressed() {
+     fun onBackPressed() {
         if (backPressedTime + 2000 > System.currentTimeMillis()) {
             finishQuiz()
         } else {
-            Toast.makeText(this, "Нажмите еще раз назад для выхода", Toast.LENGTH_LONG).show()
+            Toast.makeText(view?.context, "Нажмите еще раз назад для выхода", Toast.LENGTH_LONG).show()
         }
         backPressedTime = System.currentTimeMillis()
-        super.onBackPressed()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (countDownTimer != null) {
-            countDownTimer!!.cancel()
-        }
+        countDownTimer!!.cancel()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -226,4 +237,6 @@ class QuizActivity : AppCompatActivity() {
         private const val KEY_QUESTION_LIST = "keyQuestionList"
         private const val COUNTDOWN_IN_MILLS: Long = 30000
     }
+
+
 }
