@@ -20,6 +20,7 @@ class Question : Parcelable {
         option3: String?,
         answer_number: Int,
         explain: String?
+        explfgdfain: String?
     ) {
         question = qiuestion
         this.option1 = option1
