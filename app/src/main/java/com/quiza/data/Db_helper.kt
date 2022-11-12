@@ -2,13 +2,9 @@ package com.quiza.data
 
 import android.content.Context
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper
-import com.quiza.data.Db_helper
-import com.quiza.Question
-import android.database.sqlite.SQLiteDatabase
 import android.widget.Toast
 import android.database.sqlite.SQLiteQueryBuilder
 import android.util.Log
-import com.quiza.OnDataPass
 import java.lang.Exception
 import java.util.ArrayList
 

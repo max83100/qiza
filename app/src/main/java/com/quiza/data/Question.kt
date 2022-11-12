@@ -1,9 +1,8 @@
-package com.quiza
+package com.quiza.data
 
 import android.os.Parcelable
 import android.os.Parcel
 import android.os.Parcelable.Creator
-import com.quiza.Question
 
 class Question : Parcelable {
     var question: String?
