@@ -147,8 +147,8 @@ class QuizActivity : AppCompatActivity() {
     private fun checkAnswer() {
         answered = true
         countDownTimer.cancel()
-        val rbSelected = findViewById<RadioButton>(rbGroup!!.checkedRadioButtonId)
-        val answerNr = rbGroup!!.indexOfChild(rbSelected) + 1
+        val rbSelected = findViewById<RadioButton>(rbGroup.checkedRadioButtonId)
+        val answerNr = rbGroup.indexOfChild(rbSelected) + 1
         if (answerNr == currenrQuestion!!.answer_number) {
             score += 1
             textViewScore!!.text = "Счёт: $score"
