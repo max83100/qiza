@@ -160,10 +160,10 @@ class QuizActivity : AppCompatActivity() {
         rb1.setTextColor(Color.RED)
         rb2.setTextColor(Color.RED)
         rb3.setTextColor(Color.RED)
-        when (currenrQuestion!!.answer_number) {
+        when (currenrQuestion.answer_number) {
             1 -> {
                 rb1.setTextColor(Color.GREEN)
-                textViewQuestion!!.text = "Ответ A правильный"
+                textViewQuestion.text = "Ответ A правильный"
             }
             2 -> {
                 rb2.setTextColor(Color.GREEN)
