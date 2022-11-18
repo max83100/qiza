@@ -167,11 +167,11 @@ class QuizActivity : AppCompatActivity() {
             }
             2 -> {
                 rb2.setTextColor(Color.GREEN)
-                textViewQuestion!!.text = "Ответ B правильный"
+                textViewQuestion.text = "Ответ B правильный"
             }
             3 -> {
                 rb3.setTextColor(Color.GREEN)
-                textViewQuestion!!.text = "Ответ C правильный"
+                textViewQuestion.text = "Ответ C правильный"
             }
         }
         if (questionCounter < questionCountTotal) {
