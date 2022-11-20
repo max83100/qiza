@@ -39,9 +39,16 @@ class QuizActivity : AppCompatActivity() {
     private var questionList: ArrayList<Question>? = ArrayList()
     private var backPressedTime: Long = 0
 
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
+        //val extras = intent.extras
+        var data: String? = intent.getStringExtra("tabName")
+        val dbHelper = Db_helper(this)
         textViewQuestion = findViewById(R.id.text_question)
         textViewScore = findViewById(R.id.score_quiz)
         textViewQuestionCount = findViewById(R.id.text_qty_count)
@@ -56,7 +63,7 @@ class QuizActivity : AppCompatActivity() {
         confirmNext = findViewById(R.id.check_answer)
         textViewCountDown = findViewById(R.id.timer)
         if (savedInstanceState == null) {
-            val dbHelper = Db_helper(this)
+            dbHelper.tab_name = data.toString()
             questionList = dbHelper.allData
             questionCountTotal = questionList!!.size
             questionList?.let { Collections.shuffle(it) }
@@ -101,9 +108,9 @@ class QuizActivity : AppCompatActivity() {
         if (questionCounter < questionCountTotal) {
             currenrQuestion = questionList!![questionCounter]
             textViewQuestion.text = currenrQuestion.question
-            rb1.text = currenrQuestion.option1
-            rb2.text = currenrQuestion.option2
-            rb3.text = currenrQuestion.option3
+            rb1.text = "A: " + currenrQuestion.option1
+            rb2.text = "B: " +currenrQuestion.option2
+            rb3.text = "C: " +currenrQuestion.option3
             questionCounter++
             textViewQuestionCount.text = "Вопрос: $questionCounter из $questionCountTotal"
             answered = false

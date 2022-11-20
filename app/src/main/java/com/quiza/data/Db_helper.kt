@@ -11,14 +11,13 @@ import java.util.ArrayList
 class Db_helper(var context: Context) : SQLiteAssetHelper(
     context, DATABASE_NAME, null, DATABASE_VERSION
 ) {
-    var tab_name: String = ""
-
+    var tab_name: String? = ""
     val allData: ArrayList<Question>?
         get() = try {
             val list = ArrayList<Question>()
             val sqLiteDatabase = writableDatabase
             if (sqLiteDatabase != null) {
-                val cursor = sqLiteDatabase.rawQuery("select * from android", null)
+                val cursor = sqLiteDatabase.rawQuery("select * from " +tab_name, null)
                 if (cursor.count != 0) {
                     while (cursor.moveToNext()) {
                         val question_text = cursor.getString(1)

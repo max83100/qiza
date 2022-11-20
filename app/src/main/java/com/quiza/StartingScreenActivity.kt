@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.navigation.NavController
+import com.quiza.ui.CategoryActivity
 import com.quiza.ui.QuizActivity
 
 class StartingScreenActivity : AppCompatActivity() {
@@ -23,7 +24,7 @@ class StartingScreenActivity : AppCompatActivity() {
     }
 
     private fun startQuiz() {
-        val intent = Intent(this@StartingScreenActivity, QuizActivity::class.java)
+        val intent = Intent(this@StartingScreenActivity, CategoryActivity::class.java)
         startActivity(intent)
     }
 
