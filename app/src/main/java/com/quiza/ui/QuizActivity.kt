@@ -9,15 +9,19 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.*
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.quiza.R
+import com.quiza.StartingScreenActivity
 import com.quiza.data.Db_helper
 import com.quiza.data.Question
+import com.quiza.ui.rv.QuestionRV
 import java.util.*
 import kotlin.collections.ArrayList
 
 class QuizActivity : AppCompatActivity() {
     private lateinit var textViewQuestion: TextView
+    private lateinit var bottomBar: BottomNavigationView
     private lateinit var textViewScore: TextView
     private lateinit var textViewQuestionCount: TextView
     private lateinit var textViewCountDown: TextView
@@ -38,32 +42,31 @@ class QuizActivity : AppCompatActivity() {
     private var answered = false
     private var questionList: ArrayList<Question>? = ArrayList()
     private var backPressedTime: Long = 0
-
-
-
+    var data: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
-        //val extras = intent.extras
-        var data: String? = intent.getStringExtra("tabName")
+        data = intent.getStringExtra("tabName")
         val dbHelper = Db_helper(this)
+        dbHelper.tab_name = data.toString()
         textViewQuestion = findViewById(R.id.text_question)
         textViewScore = findViewById(R.id.score_quiz)
         textViewQuestionCount = findViewById(R.id.text_qty_count)
         textViewCountDown = findViewById(R.id.timer)
         rbGroup = findViewById(R.id.radio_group)
+        bottomBar = findViewById(R.id.bottomNavigationView)
 
         rb1 = findViewById(R.id.radio_button1)
         rb2 = findViewById(R.id.radio_button2)
         rb3 = findViewById(R.id.radio_button3)
 
 
+
         confirmNext = findViewById(R.id.check_answer)
         textViewCountDown = findViewById(R.id.timer)
         if (savedInstanceState == null) {
-            dbHelper.tab_name = data.toString()
             questionList = dbHelper.allData
             questionCountTotal = questionList!!.size
             questionList?.let { Collections.shuffle(it) }
@@ -94,6 +97,31 @@ class QuizActivity : AppCompatActivity() {
                 }
             } else {
                 showNextQuestion()
+            }
+        }
+        bottomBar()
+    }
+
+    private fun bottomBar() {
+        bottomBar.setOnNavigationItemSelectedListener { item ->
+            when(item.itemId) {
+                R.id.quiz -> {
+                    val intent: Intent  = Intent(this, ExplainActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.questionList -> {
+                    val intent: Intent  = Intent(this, QuestionRV::class.java)
+                    intent.putExtra("tabName", data)
+                    startActivity(intent)
+                    true
+                }
+                R.id.favorire -> {
+                    val intent: Intent  = Intent(this, QuizActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
             }
         }
     }

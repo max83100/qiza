@@ -1,32 +1,29 @@
-package com.quiza.data
+package com.quiza.ui.rv
 
 import android.content.Context
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper
 import android.widget.Toast
 import android.database.sqlite.SQLiteQueryBuilder
 import android.util.Log
+import com.quiza.data.Question
 import java.lang.Exception
 import java.util.ArrayList
 
-class Db_helper(var context: Context) : SQLiteAssetHelper(
+class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
     context, DATABASE_NAME, null, DATABASE_VERSION
 ) {
-    var tab_name: String? = ""
-    val allData: ArrayList<Question>?
+    var tab_name: String? = data
+    val allData: ArrayList<Data>?
         get() = try {
-            val list = ArrayList<Question>()
+            val list = ArrayList<Data>()
             val sqLiteDatabase = writableDatabase
             if (sqLiteDatabase != null) {
-                val cursor = sqLiteDatabase.rawQuery("select * from " +tab_name, null)
+                val cursor = sqLiteDatabase.rawQuery("select * from "+ tab_name, null)
                 if (cursor.count != 0) {
                     while (cursor.moveToNext()) {
                         val question_text = cursor.getString(1)
-                        val option1 = cursor.getString(2)
-                        val option2 = cursor.getString(3)
-                        val option3 = cursor.getString(4)
-                        val right_answer = cursor.getInt(5)
-                        val explain = cursor.getString(6)
-                        list.add(Question(question_text, option1, option2, option3, right_answer,explain))
+
+                        list.add(Data(question_text))
                     }
                     list
                 } else {
@@ -38,7 +35,7 @@ class Db_helper(var context: Context) : SQLiteAssetHelper(
                 null
             }
         } catch (e: Exception) {
-            Toast.makeText(context, "getalldata" + e.message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "getalldata" + e.message + tab_name , Toast.LENGTH_SHORT).show()
             e.printStackTrace()
             null
         }
