@@ -22,8 +22,13 @@ class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
                 if (cursor.count != 0) {
                     while (cursor.moveToNext()) {
                         val question_text = cursor.getString(1)
+                        val option1 = cursor.getString(2)
+                        val option2 = cursor.getString(3)
+                        val option3 = cursor.getString(4)
+                        val right_answer = cursor.getInt(5)
+                        val explain = cursor.getString(6)
 
-                        list.add(Data(question_text))
+                        list.add(Data(question_text, option1, option2, option3, right_answer,explain))
                     }
                     list
                 } else {
