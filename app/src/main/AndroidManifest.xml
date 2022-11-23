@@ -26,6 +26,9 @@
             android:name=".ui.QuizActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.rv.SingleQuizActivity"
+            android:exported="false" />
+        <activity
             android:name=".StartingScreenActivity"
             android:exported="true">
             <intent-filter>

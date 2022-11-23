@@ -9,6 +9,7 @@ import android.os.CountDownTimer
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.quiza.R
@@ -29,11 +30,8 @@ class SingleQuizActivity : AppCompatActivity() {
     private lateinit var confirmNext: Button
     private lateinit var textColorsDefaultRb: ColorStateList
     private lateinit var textColorsDefaultCd: ColorStateList
-    private lateinit var countDownTimer: CountDownTimer
-    private var timeLiftInMillis: Long = 0
     private var questionCounter = 0
     private var questionCountTotal = 1
-    private var score = 0
     private var answered = false
     private var backPressedTime: Long = 0
     private var questionBundle: String? = null
@@ -60,10 +58,14 @@ class SingleQuizActivity : AppCompatActivity() {
         textViewCountDown = findViewById(R.id.timer)
         rbGroup = findViewById(R.id.radio_group)
         bottomBar = findViewById(R.id.bottomNavigationView)
+        textViewScore.setVisibility(View.GONE)
+        textViewCountDown.setVisibility(View.GONE)
 
         rb1 = findViewById(R.id.radio_button1)
         rb2 = findViewById(R.id.radio_button2)
         rb3 = findViewById(R.id.radio_button3)
+        Toast.makeText(this@SingleQuizActivity, rightAnswerBundle, Toast.LENGTH_LONG).show()
+
 
 
 
@@ -73,9 +75,8 @@ class SingleQuizActivity : AppCompatActivity() {
             showNextQuestion()
         } else {
             if (!answered) {
-                startCountDown()
+                checkAnswer()
             } else {
-                updateCountDownText()
                 showSolution()
             }
         }
@@ -92,32 +93,8 @@ class SingleQuizActivity : AppCompatActivity() {
                 showNextQuestion()
             }
         }
-        bottomBar()
     }
 
-    private fun bottomBar() {
-        bottomBar.setOnNavigationItemSelectedListener { item ->
-            when(item.itemId) {
-                R.id.quiz -> {
-                    val intent: Intent  = Intent(this, ExplainActivity::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.questionList -> {
-                    val intent: Intent  = Intent(this, QuestionRV::class.java)
-                    intent.putExtra("tabName", questionBundle)
-                    startActivity(intent)
-                    true
-                }
-                R.id.favorire -> {
-                    val intent: Intent  = Intent(this, SingleQuizActivity::class.java)
-                    startActivity(intent)
-                    true
-                }
-                else -> false
-            }
-        }
-    }
 
     @SuppressLint("SetTextI18n")
     private fun showNextQuestion() {
@@ -131,55 +108,23 @@ class SingleQuizActivity : AppCompatActivity() {
             rb1.text = "A: " + option1Bundle
             rb2.text = "B: " + option2Bundle
             rb3.text = "C: " + option3Bundle
-            questionCounter++
             textViewQuestionCount.text = "Вопрос: 1 из 1"
             answered = false
             confirmNext.text = "Проверить"
-            startCountDown()
 
         } else {
-            finishQuiz()
+            //finishQuiz()
         }
     }
 
-    private fun startCountDown() {
-        countDownTimer = object : CountDownTimer(timeLiftInMillis, 1000) {
-            override fun onTick(l: Long) {
-                timeLiftInMillis = l
-                updateCountDownText()
-            }
 
-            override fun onFinish() {
-                timeLiftInMillis = 0
-                updateCountDownText()
-                checkAnswer()
-            }
-        }.start()
-    }
 
-    private fun updateCountDownText() {
-        val minuts = (timeLiftInMillis / 1000).toInt() / 60
-        val seconds = (timeLiftInMillis / 1000).toInt() % 60
-        val timeFormatted = String.format(Locale.getDefault(), "%02d:%02d", minuts, seconds)
-        textViewCountDown.text = timeFormatted
-        if (timeLiftInMillis < 10000) {
-            textViewCountDown.setTextColor(Color.RED)
-        } else {
-            textViewCountDown.setTextColor(textColorsDefaultCd)
-        }
-    }
+
 
     @SuppressLint("SetTextI18n")
     private fun checkAnswer() {
-        answered = true
-        countDownTimer.cancel()
-        val rbSelected = findViewById<RadioButton>(rbGroup.checkedRadioButtonId)
-        val answerNr = rbGroup.indexOfChild(rbSelected) + 1
-        if (answerNr == rightAnswerBundle?.toInt()) {
-            score += 1
-            textViewScore!!.text = "Счёт: $score"
-        }
         showSolution()
+        answered = true
     }
 
     private fun showSolution() {
@@ -237,9 +182,6 @@ class SingleQuizActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (countDownTimer != null) {
-            countDownTimer!!.cancel()
-        }
     }
 
 

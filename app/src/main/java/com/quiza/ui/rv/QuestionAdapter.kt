@@ -24,20 +24,13 @@ class QuestionAdapter(exampleList: ArrayList<Data>) :
     inner class ViewHolder internal constructor(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         var questionTxt: TextView
-        var option1Txt: TextView
-        var option2Txt: TextView
-        var option3Txt: TextView
-        var rightAnswerTxt: String = ""
-        var explainTxt: TextView
+
 
 
 
         init {
             questionTxt = itemView.findViewById(R.id.name_quiz)
-            option1Txt = itemView.findViewById(R.id.radio_button1)
-            option2Txt = itemView.findViewById(R.id.radio_button2)
-            option3Txt = itemView.findViewById(R.id.radio_button3)
-            explainTxt = itemView.findViewById(R.id.explainText)
+
 
         }
     }
