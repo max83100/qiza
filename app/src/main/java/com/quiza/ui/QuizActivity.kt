@@ -233,7 +233,7 @@ class QuizActivity : AppCompatActivity() {
         if (backPressedTime + 2000 > System.currentTimeMillis()) {
             finishQuiz()
         } else {
-            Toast.makeText(this, "Нажмите еще раз назад для выхода", Toast.LENGTH_LONG).show()
+
         }
         backPressedTime = System.currentTimeMillis()
         super.onBackPressed()

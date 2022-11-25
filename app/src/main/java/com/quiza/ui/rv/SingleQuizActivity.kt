@@ -50,7 +50,7 @@ class SingleQuizActivity : AppCompatActivity() {
         option1Bundle = intent.getStringExtra("option1")
         option2Bundle = intent.getStringExtra("option2")
         option3Bundle = intent.getStringExtra("option3")
-        rightAnswerBundle = intent.getStringExtra("rightAnswer")
+        rightAnswerBundle = intent.getIntExtra("rightAnswer",0).toString()
         explainBundle = intent.getStringExtra("explain")
         textViewQuestion = findViewById(R.id.text_question)
         textViewScore = findViewById(R.id.score_quiz)
@@ -60,14 +60,11 @@ class SingleQuizActivity : AppCompatActivity() {
         bottomBar = findViewById(R.id.bottomNavigationView)
         textViewScore.setVisibility(View.GONE)
         textViewCountDown.setVisibility(View.GONE)
+        bottomBar.setVisibility(View.GONE)
 
         rb1 = findViewById(R.id.radio_button1)
         rb2 = findViewById(R.id.radio_button2)
         rb3 = findViewById(R.id.radio_button3)
-        Toast.makeText(this@SingleQuizActivity, rightAnswerBundle, Toast.LENGTH_LONG).show()
-
-
-
 
         confirmNext = findViewById(R.id.check_answer)
         textViewCountDown = findViewById(R.id.timer)
@@ -148,8 +145,7 @@ class SingleQuizActivity : AppCompatActivity() {
         if (questionCounter < questionCountTotal) {
             confirmNext.text = "Вернуться к списку вопросов"
             confirmNext.setOnClickListener({
-                val intent = Intent(this@SingleQuizActivity, QuestionRV::class.java)
-                startActivity(intent)
+                onBackPressed()
             }
             )
             explain = findViewById(R.id.explain)
@@ -171,12 +167,6 @@ class SingleQuizActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (backPressedTime + 2000 > System.currentTimeMillis()) {
-            finishQuiz()
-        } else {
-            Toast.makeText(this, "Нажмите еще раз назад для выхода", Toast.LENGTH_LONG).show()
-        }
-        backPressedTime = System.currentTimeMillis()
         super.onBackPressed()
     }
 

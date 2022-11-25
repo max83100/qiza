@@ -4,8 +4,6 @@ import android.content.Context
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper
 import android.widget.Toast
 import android.database.sqlite.SQLiteQueryBuilder
-import android.util.Log
-import com.quiza.data.Question
 import java.lang.Exception
 import java.util.ArrayList
 
