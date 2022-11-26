@@ -109,8 +109,6 @@ class SingleQuizActivity : AppCompatActivity() {
             answered = false
             confirmNext.text = "Проверить"
 
-        } else {
-            //finishQuiz()
         }
     }
 
