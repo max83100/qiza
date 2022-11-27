@@ -13,6 +13,7 @@ class CategoryActivity : AppCompatActivity() {
     lateinit var android: ImageView
     lateinit var kotlin: ImageView
     lateinit var java: ImageView
+    lateinit var oop: ImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +22,7 @@ class CategoryActivity : AppCompatActivity() {
         android  = findViewById(R.id.android_btn)
         kotlin  = findViewById(R.id.kotlin_btn)
         java  = findViewById(R.id.java_btn)
+        oop  = findViewById(R.id.oop_btn)
         preload()
     }
     fun preload(){
@@ -36,6 +38,10 @@ class CategoryActivity : AppCompatActivity() {
         }
         java.setOnClickListener{
             intent.putExtra("tabName", "java")
+            startActivity(intent)
+        }
+        oop.setOnClickListener{
+            intent.putExtra("tabName", "oop")
             startActivity(intent)
         }
     }
