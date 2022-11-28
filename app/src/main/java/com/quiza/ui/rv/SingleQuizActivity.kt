@@ -142,10 +142,9 @@ class SingleQuizActivity : AppCompatActivity() {
         }
         if (questionCounter < questionCountTotal) {
             confirmNext.text = "Вернуться к списку вопросов"
-            confirmNext.setOnClickListener({
+            confirmNext.setOnClickListener {
                 onBackPressed()
             }
-            )
             explain = findViewById(R.id.explain)
             explain!!.setVisibility(View.VISIBLE)
             explain?.setOnClickListener(View.OnClickListener {
