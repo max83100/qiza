@@ -31,7 +31,7 @@ class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
                         val explain = cursor.getString(6)
                         fav = cursor.getString(7)
 
-                        list.add(Data(id!!,question_text, option1, option2, option3, right_answer,explain,fav!!))
+                        list.add(Data(id!!.toString(),question_text, option1, option2, option3, right_answer,explain,fav!!))
                     }
                     list
                 } else {
@@ -89,6 +89,12 @@ class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
         val db = this.readableDatabase
         val sql =
             "SELECT * FROM " + tab_name.toString() + " WHERE " + fav.toString() + " ='1'"
+        return db.rawQuery(sql, null, null)
+    }
+    fun read_all_data(id: String): Cursor? {
+        val db = this.readableDatabase
+        val sql =
+            "select * from " + tab_name.toString() + " where " + id.toString() + "=" + id + ""
         return db.rawQuery(sql, null, null)
     }
 }
