@@ -30,7 +30,7 @@ class QuestionRV : AppCompatActivity() {
     fun showData(view: View?) {
         try {
             list = myDB!!.allData
-            customAdapter = list?.let { QuestionAdapter(it) }
+            customAdapter = list?.let { QuestionAdapter(it,this) }
             recyclerView!!.hasFixedSize()
             recyclerView!!.layoutManager = LinearLayoutManager(this)
             recyclerView!!.adapter = customAdapter

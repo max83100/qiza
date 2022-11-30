@@ -13,6 +13,7 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper
 class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
     context, DATABASE_NAME, null, DATABASE_VERSION
 ) {
+    val cursor = null
     var id: Int? = null
     var fav: String? = null
     var tab_name: String? = data
@@ -24,14 +25,14 @@ class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
                 val cursor = sqLiteDatabase.rawQuery("select * from "+ tab_name, null)
                 if (cursor.count != 0) {
                     while (cursor.moveToNext()) {
-                        id = cursor.getInt(0)
+                        id = cursor.getInt(5)
                         val question_text = cursor.getString(1)
                         val option1 = cursor.getString(2)
                         val option2 = cursor.getString(3)
                         val option3 = cursor.getString(4)
                         val right_answer = cursor.getInt(5)
                         val explain = cursor.getString(6)
-                        fav = cursor.getString(7)
+                        fav = cursor.getString(6)
 
                         list.add(Data(id!!.toString(),question_text, option1, option2, option3, right_answer,explain,fav!!))
                     }
