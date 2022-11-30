@@ -1,7 +1,9 @@
 package com.quiza.ui.rv
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteQueryBuilder
 import android.util.Log
 import android.widget.Toast
@@ -96,5 +98,17 @@ class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
         val sql =
             "select * from " + tab_name.toString() + " where " + id.toString() + "=" + id + ""
         return db.rawQuery(sql, null, null)
+    }
+    fun insertIntoTheDatabase(
+        id: String?,
+        fav_status: String
+    ) {
+        val db: SQLiteDatabase
+        db = this.writableDatabase
+        val cv = ContentValues()
+        cv.put("id", id)
+        cv.put("fav", fav_status)
+        db.insert(tab_name, null, cv)
+        Log.d("FavDB Status", "$, favstatus - $fav_status - . $cv")
     }
 }
