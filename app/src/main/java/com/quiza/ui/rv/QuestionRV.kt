@@ -24,7 +24,7 @@ class QuestionRV : AppCompatActivity() {
         RV_helper.tab_name = data.toString()
         list = ArrayList()
         showData(recyclerView)
-
+//
     }
 
     fun showData(view: View?) {
