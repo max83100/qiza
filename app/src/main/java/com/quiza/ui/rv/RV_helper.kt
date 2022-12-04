@@ -13,9 +13,15 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper
 class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
     context, DATABASE_NAME, null, DATABASE_VERSION
 ) {
-    val cursor = null
-    var id: Int? = null
+
+    var id: Int? = 0
+    var option1: String? = null
+    var option2: String? = null
+    var option3: String? = null
+    var explain: String? = null
     var fav: String? = null
+    var question_text: String? = null
+    var right_answer: Int? = 0
     var tab_name: String? = data
     val allData: ArrayList<Data>?
         get() = try {
@@ -26,15 +32,15 @@ class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
                 if (cursor.count != 0) {
                     while (cursor.moveToNext()) {
                         id = cursor.getInt(5)
-                        val question_text = cursor.getString(1)
-                        val option1 = cursor.getString(2)
-                        val option2 = cursor.getString(3)
-                        val option3 = cursor.getString(4)
-                        val right_answer = cursor.getInt(5)
-                        val explain = cursor.getString(6)
+                        question_text = cursor.getString(1)
+                        option1 = cursor.getString(2)
+                        option2 = cursor.getString(3)
+                        option3 = cursor.getString(4)
+                        right_answer = cursor.getInt(5)
+                        explain = cursor.getString(6)
                         fav = cursor.getString(6)
 
-                        list.add(Data(id!!.toString(),question_text, option1, option2, option3, right_answer,explain,fav!!))
+                        list.add(Data(id!!.toString(),question_text.toString(), option1.toString(), option2.toString(), option3.toString(), right_answer!!.toInt(),explain.toString(),fav!!))
                     }
                     list
                 } else {
@@ -80,25 +86,12 @@ class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
         setForcedUpgrade(3)
     }
 
-    fun removeFav(id: String){
-        val db = this.writableDatabase
-        val sql =
-            "UPDATE " + tab_name.toString() + " SET  " + fav.toString() + " ='0' WHERE " + id.toString() + "=" + id + ""
-        db.execSQL(sql)
-        Log.d("remove", id)
+    fun insertFav(question_text: String,option1: String,option2: String,option3: String,right_answer: Int,explain: String,fav: String){
+      val db: SQLiteDatabase = this.getWritableDatabase()
+        val cv: ContentValues = ContentValues()
+
     }
 
-    fun select_all_favorite_list(): Cursor? {
-        val db = this.readableDatabase
-        val sql =
-            "SELECT * FROM " + tab_name.toString() + " WHERE " + fav.toString() + " ='1'"
-        return db.rawQuery(sql, null, null)
-    }
-    fun read_all_data(id: String): Cursor? {
-        val db = this.readableDatabase
-        val sql =
-            "select * from " + tab_name.toString() + " where " + id.toString() + "=" + id + ""
-        return db.rawQuery(sql, null, null)
-    }
+
 
 }
