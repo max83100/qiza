@@ -70,7 +70,17 @@ class QuestionAdapter(exampleList: ArrayList<Data>,context: Context) :
             v.context.startActivity(intent)
         }
         holder.btnFav.setOnClickListener{
-        Toast.makeText(context,"sdfsd",Toast.LENGTH_LONG).show()
+            rvHelper.insertFav(currentItem.question,currentItem.option1,currentItem.option2,currentItem.option3,currentItem.rightAnswer,currentItem.explain,currentItem.fav)
+            Toast.makeText(context,"added in favorite",Toast.LENGTH_LONG).show()
+            if(currentItem.fav == "1") {
+                holder.btnFav.setImageResource(R.drawable.favorite2)
+            }
+            else{
+                currentItem.fav = "0"
+                holder.btnFav.setImageResource(R.drawable.favorite1)
+            }
+
+
         }
 
     }

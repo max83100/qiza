@@ -31,9 +31,10 @@
                 android:id="@+id/favorite_rv"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:clickable="true"
                 android:scaleType="centerCrop"
-                app:cardBackgroundColor="@android:color/transparent"
-                android:src="@drawable/favorite1" />
+                android:src="@drawable/favorite1"
+                app:cardBackgroundColor="@android:color/transparent" />
 
             <TextView
                 android:id="@+id/name_quiz"
