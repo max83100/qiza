@@ -18,8 +18,9 @@ class QuestionAdapter(exampleList: ArrayList<Data>,context: Context) :
     RecyclerView.Adapter<QuestionAdapter.ViewHolder>() {
     private val exampleList: List<Data>
     private val exampleListFull: List<Data>
-    lateinit var rvHelper: RV_helper
+
      var context: Context
+    var rvHelper: RV_helper = RV_helper(context,"")
 
 
 
