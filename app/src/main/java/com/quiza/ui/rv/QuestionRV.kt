@@ -28,6 +28,7 @@ class QuestionRV : AppCompatActivity() {
     }
 
     fun showData(view: View?) {
+
         try {
             list = myDB!!.allData
             customAdapter = list?.let { QuestionAdapter(it,this) }

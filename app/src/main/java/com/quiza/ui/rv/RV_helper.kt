@@ -38,7 +38,7 @@ class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
                         option3 = cursor.getString(4)
                         right_answer = cursor.getInt(5)
                         explain = cursor.getString(6)
-                        fav = cursor.getString(6)
+                        fav = cursor.getString(7)
 
                         list.add(Data(id!!.toString(),question_text.toString(), option1.toString(), option2.toString(), option3.toString(), right_answer!!.toInt(),explain.toString(),fav!!))
                     }
@@ -86,9 +86,29 @@ class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
         setForcedUpgrade(3)
     }
 
-    fun insertFav(question_text: String,option1: String,option2: String,option3: String,right_answer: Int,explain: String,fav: String){
+    fun insertFav(question_text: String,option1: String,option2: String,option3: String,right_answer: Int,explain: String,fav: String): Boolean{
       val db: SQLiteDatabase = this.getWritableDatabase()
         val cv: ContentValues = ContentValues()
+        cv.put("question",question_text)
+        cv.put("option1",option1)
+        cv.put("option2",option2)
+        cv.put("option3",option3)
+        cv.put("answer",right_answer)
+        cv.put("explain",explain)
+        if(fav == "0"){
+            cv.put("favorite","1")
+        }
+        else{
+            cv.put("favorite","0")
+        }
+
+        val res: Long = db.insert("fav",null,cv)
+        return !res.equals(-1)
+    }
+
+    fun deleteFavItem(id: Int): Int{
+        val db: SQLiteDatabase = this.getWritableDatabase()
+        return db.delete("fav", "id =?", null)
 
     }
 
