@@ -2,10 +2,8 @@ package com.quiza.ui.rv
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteQueryBuilder
-import android.util.Log
 import android.widget.Toast
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper
 

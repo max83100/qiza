@@ -2,8 +2,6 @@ package com.quiza.ui.rv
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -75,10 +73,15 @@ class QuestionAdapter(exampleList: ArrayList<Data>,context: Context) :
             Toast.makeText(context,"added in favorite",Toast.LENGTH_LONG).show()
             if(currentItem.fav == "1") {
                 holder.btnFav.setImageResource(R.drawable.favorite2)
+                val id: Int = getItemId(position).toInt()
+                //val where = "id=?"
+                //val whereArgs: String = arrayOf(java.lang.Long.toString(id))
+                rvHelper.deleteFavItem(id)
             }
             else{
                 currentItem.fav = "0"
                 holder.btnFav.setImageResource(R.drawable.favorite1)
+
             }
 
 
