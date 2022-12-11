@@ -29,7 +29,7 @@ class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
                 val cursor = sqLiteDatabase.rawQuery("select * from "+ tab_name, null)
                 if (cursor.count != 0) {
                     while (cursor.moveToNext()) {
-                        id = cursor.getInt(5)
+                        id = cursor.getInt(0)
                         question_text = cursor.getString(1)
                         option1 = cursor.getString(2)
                         option2 = cursor.getString(3)
