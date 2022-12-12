@@ -17,6 +17,7 @@ class QuestionAdapter(exampleList: ArrayList<Data>,context: Context) :
     private val exampleList: List<Data>
     private val exampleListFull: List<Data>
 
+
      var context: Context
     var rvHelper: RV_helper = RV_helper(context,"")
 
@@ -69,14 +70,15 @@ class QuestionAdapter(exampleList: ArrayList<Data>,context: Context) :
             v.context.startActivity(intent)
         }
         holder.btnFav.setOnClickListener{
+
+
             rvHelper.insertFav(currentItem.question,currentItem.option1,currentItem.option2,currentItem.option3,currentItem.rightAnswer,currentItem.explain,currentItem.fav)
             Toast.makeText(context,"added in favorite",Toast.LENGTH_LONG).show()
             if(currentItem.fav == "1") {
                 holder.btnFav.setImageResource(R.drawable.favorite2)
-                val id: Int = getItemId(position).toInt()
-                //val where = "id=?"
-                //val whereArgs: String = arrayOf(java.lang.Long.toString(id))
-                rvHelper.deleteFavItem(id)
+                rvHelper.deleteFavItem(currentItem.question)
+                Toast.makeText(context,"deleted favorite",Toast.LENGTH_LONG).show()
+                notifyDataSetChanged()
             }
             else{
                 currentItem.fav = "0"

@@ -93,20 +93,14 @@ class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
         cv.put("option3",option3)
         cv.put("answer",right_answer)
         cv.put("explain",explain)
-        if(fav == "0"){
-            cv.put("favorite","1")
-        }
-        else{
-            cv.put("favorite","0")
-        }
-
+        cv.put("favorite","1")
         val res: Long = db.insert("fav",null,cv)
         return !res.equals(-1)
     }
 
-    fun deleteFavItem(id: Int): Int{
+    fun deleteFavItem(question_text: String): Int{
         val db: SQLiteDatabase = this.getWritableDatabase()
-        return db.delete("fav", "id =?", null)
+        return db.delete("fav", "question=?", arrayOf(question_text))
 
     }
 

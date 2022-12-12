@@ -15,6 +15,7 @@ import com.quiza.R
 import com.quiza.StartingScreenActivity
 import com.quiza.data.Db_helper
 import com.quiza.data.Question
+import com.quiza.ui.fav.Favorite
 import com.quiza.ui.rv.QuestionRV
 import java.util.*
 import kotlin.collections.ArrayList
@@ -117,7 +118,7 @@ class QuizActivity : AppCompatActivity() {
                     true
                 }
                 R.id.favorire -> {
-                    val intent: Intent  = Intent(this, QuizActivity::class.java)
+                    val intent: Intent  = Intent(this, Favorite::class.java)
                     startActivity(intent)
                     true
                 }
