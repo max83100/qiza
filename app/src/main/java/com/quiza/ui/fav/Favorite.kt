@@ -42,4 +42,11 @@ class Favorite : AppCompatActivity() {
             e.printStackTrace()
         }
     }
+
+    override fun onDestroy() {
+        customAdapter = null
+        myDB?.close()
+        list = null
+        super.onDestroy()
+    }
 }

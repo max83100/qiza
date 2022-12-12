@@ -70,23 +70,21 @@ class QuestionAdapter(exampleList: ArrayList<Data>,context: Context) :
             v.context.startActivity(intent)
         }
         holder.btnFav.setOnClickListener{
-
-
             rvHelper.insertFav(currentItem.question,currentItem.option1,currentItem.option2,currentItem.option3,currentItem.rightAnswer,currentItem.explain,currentItem.fav)
-            Toast.makeText(context,"added in favorite",Toast.LENGTH_LONG).show()
-            if(currentItem.fav == "1") {
-                holder.btnFav.setImageResource(R.drawable.favorite2)
-                rvHelper.deleteFavItem(currentItem.question)
-                Toast.makeText(context,"deleted favorite",Toast.LENGTH_LONG).show()
-                notifyDataSetChanged()
-            }
-            else{
-                currentItem.fav = "0"
-                holder.btnFav.setImageResource(R.drawable.favorite1)
-
-            }
-
-
+            notifyDataSetChanged()
+           Toast.makeText(context,"added in favorite",Toast.LENGTH_LONG).show()
+//            if(currentItem.fav == "1") {
+//                holder.btnFav.setImageResource(R.drawable.favorite2)
+//                rvHelper.deleteFavItem(currentItem.question)
+//                Toast.makeText(context,"deleted favorite",Toast.LENGTH_LONG).show()
+//                notifyDataSetChanged()
+//            }
+//            else{
+//                currentItem.fav = "0"
+//                rvHelper.insertFav(currentItem.question,currentItem.option1,currentItem.option2,currentItem.option3,currentItem.rightAnswer,currentItem.explain,currentItem.fav)
+//                holder.btnFav.setImageResource(R.drawable.favorite1)
+//                notifyDataSetChanged()
+//            }
         }
 
     }

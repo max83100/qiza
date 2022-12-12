@@ -11,8 +11,6 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper
 class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
     context, DATABASE_NAME, null, DATABASE_VERSION
 ) {
-
-    var id: Int? = 0
     var option1: String? = null
     var option2: String? = null
     var option3: String? = null
@@ -29,7 +27,6 @@ class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
                 val cursor = sqLiteDatabase.rawQuery("select * from "+ tab_name, null)
                 if (cursor.count != 0) {
                     while (cursor.moveToNext()) {
-                        id = cursor.getInt(0)
                         question_text = cursor.getString(1)
                         option1 = cursor.getString(2)
                         option2 = cursor.getString(3)
@@ -38,7 +35,7 @@ class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
                         explain = cursor.getString(6)
                         fav = cursor.getString(7)
 
-                        list.add(Data(id!!.toString(),question_text.toString(), option1.toString(), option2.toString(), option3.toString(), right_answer!!.toInt(),explain.toString(),fav!!))
+                        list.add(Data(question_text.toString(), option1.toString(), option2.toString(), option3.toString(), right_answer!!.toInt(),explain.toString(),fav!!))
                     }
                     list
                 } else {
@@ -86,7 +83,7 @@ class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
 
     fun insertFav(question_text: String,option1: String,option2: String,option3: String,right_answer: Int,explain: String,fav: String): Boolean{
       val db: SQLiteDatabase = this.getWritableDatabase()
-        val cv: ContentValues = ContentValues()
+        val cv = ContentValues()
         cv.put("question",question_text)
         cv.put("option1",option1)
         cv.put("option2",option2)
