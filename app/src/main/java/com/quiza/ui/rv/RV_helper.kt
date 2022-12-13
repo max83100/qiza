@@ -78,7 +78,7 @@ class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
     }
 
     init {
-        setForcedUpgrade(3)
+        setForcedUpgrade(1)
     }
 
     fun insertFav(question_text: String,option1: String,option2: String,option3: String,right_answer: Int,explain: String,fav: String): Boolean{

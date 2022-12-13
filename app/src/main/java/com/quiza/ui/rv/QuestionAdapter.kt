@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.quiza.R
+import com.quiza.ui.fav.Fav_helper
 
 
 class QuestionAdapter(exampleList: ArrayList<Data>,context: Context) :
@@ -19,7 +20,7 @@ class QuestionAdapter(exampleList: ArrayList<Data>,context: Context) :
 
 
      var context: Context
-    var rvHelper: RV_helper = RV_helper(context,"")
+    var rvHelper: Fav_helper = Fav_helper(context)
 
 
 
@@ -47,7 +48,7 @@ class QuestionAdapter(exampleList: ArrayList<Data>,context: Context) :
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(com.quiza.R.layout.card_view, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.card_view, parent, false)
         return ViewHolder(v)
     }
 
@@ -70,9 +71,11 @@ class QuestionAdapter(exampleList: ArrayList<Data>,context: Context) :
             v.context.startActivity(intent)
         }
         holder.btnFav.setOnClickListener{
-            rvHelper.insertFav(currentItem.question,currentItem.option1,currentItem.option2,currentItem.option3,currentItem.rightAnswer,currentItem.explain,currentItem.fav)
-            notifyDataSetChanged()
-           Toast.makeText(context,"added in favorite",Toast.LENGTH_LONG).show()
+//            rvHelper.insertFav(currentItem.question,currentItem.option1,currentItem.option2,currentItem.option3,currentItem.rightAnswer,currentItem.explain,currentItem.fav)
+//            notifyDataSetChanged()
+//           Toast.makeText(context,"added in favorite",Toast.LENGTH_LONG).show()
+//            rvHelper.close()
+
 //            if(currentItem.fav == "1") {
 //                holder.btnFav.setImageResource(R.drawable.favorite2)
 //                rvHelper.deleteFavItem(currentItem.question)
