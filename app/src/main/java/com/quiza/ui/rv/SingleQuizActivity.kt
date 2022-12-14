@@ -14,10 +14,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.quiza.R
 import com.quiza.ui.ExplainActivity
+import com.quiza.ui.fav.Favorite
 import java.util.*
 
 class SingleQuizActivity : AppCompatActivity() {
     private lateinit var textViewQuestion: TextView
+    lateinit var rvHelper: RV_helper
     private lateinit var bottomBar: BottomNavigationView
     private lateinit var textViewScore: TextView
     private lateinit var textViewQuestionCount: TextView
@@ -25,6 +27,7 @@ class SingleQuizActivity : AppCompatActivity() {
     private lateinit var rbGroup: RadioGroup
     private lateinit var rb1: RadioButton
     private var explain: FloatingActionButton? = null
+    private var favoriteBtn: FloatingActionButton? = null
     private lateinit var rb2: RadioButton
     private lateinit var rb3: RadioButton
     private lateinit var confirmNext: Button
@@ -40,24 +43,28 @@ class SingleQuizActivity : AppCompatActivity() {
     private var option3Bundle: String? = null
     private var rightAnswerBundle: String? = null
     private var explainBundle: String? = null
+    private var favBundle: String? = null
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
+        rvHelper = RV_helper(this,"")
         questionBundle = intent.getStringExtra("question")
         option1Bundle = intent.getStringExtra("option1")
         option2Bundle = intent.getStringExtra("option2")
         option3Bundle = intent.getStringExtra("option3")
         rightAnswerBundle = intent.getIntExtra("rightAnswer",0).toString()
         explainBundle = intent.getStringExtra("explain")
+        favBundle = intent.getStringExtra("fav")
         textViewQuestion = findViewById(R.id.text_question)
         textViewScore = findViewById(R.id.score_quiz)
         textViewQuestionCount = findViewById(R.id.text_qty_count)
         textViewCountDown = findViewById(R.id.timer)
         rbGroup = findViewById(R.id.radio_group)
         bottomBar = findViewById(R.id.bottomNavigationView)
+        favoriteBtn = findViewById(R.id.favoriteBtn)
         textViewScore.setVisibility(View.GONE)
         textViewCountDown.setVisibility(View.GONE)
         bottomBar.setVisibility(View.GONE)
@@ -95,6 +102,21 @@ class SingleQuizActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun showNextQuestion() {
+        favoriteBtn?.setOnClickListener{
+            if(favBundle == "1") {
+                favoriteBtn!!.setImageResource(R.drawable.favorite1)
+                rvHelper.deleteFavItem(questionBundle!!)
+                Toast.makeText(this,"deleted favorite",Toast.LENGTH_LONG).show()
+
+            }
+            else{
+                favBundle = "0"
+                favoriteBtn!!.setImageResource(R.drawable.favorite2)
+                Toast.makeText(this,"added in favorite",Toast.LENGTH_LONG).show()
+                rvHelper.insertFav(questionBundle!!,option1Bundle!!,option2Bundle!!,option3Bundle!!,rvHelper.right_answer!!,explainBundle!!,favBundle!!)
+                rvHelper.close()
+            }
+        }
         explain?.setVisibility(View.GONE)
         rb1.setTextColor(Color.BLACK)
         rb2.setTextColor(Color.BLACK)
@@ -163,11 +185,10 @@ class SingleQuizActivity : AppCompatActivity() {
         finish()
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-    }
+
 
     override fun onDestroy() {
+        rvHelper.close()
         super.onDestroy()
     }
 

@@ -27,7 +27,7 @@
             android:padding="12dp">
 
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/favorite_rv"
                 android:layout_width="50dp"
                 android:layout_height="50dp"

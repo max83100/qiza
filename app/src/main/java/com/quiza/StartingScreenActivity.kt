@@ -11,6 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.quiza.ui.CategoryActivity
 import com.quiza.ui.ExplainActivity
 import com.quiza.ui.QuizActivity
+import com.quiza.ui.fav.Favorite
 
 class StartingScreenActivity : AppCompatActivity() {
     private var textHighscore: TextView? = null
@@ -42,7 +43,7 @@ class StartingScreenActivity : AppCompatActivity() {
                     true
                 }
                 R.id.favorire -> {
-                    val intent: Intent  = Intent(this, QuizActivity::class.java)
+                    val intent: Intent  = Intent(this, Favorite::class.java)
                     startActivity(intent)
                     true
                 }

@@ -6,11 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.quiza.R
-import com.quiza.ui.fav.Fav_helper
 
 
 class QuestionAdapter(exampleList: ArrayList<Data>,context: Context) :
@@ -20,7 +20,7 @@ class QuestionAdapter(exampleList: ArrayList<Data>,context: Context) :
 
 
      var context: Context
-    var rvHelper: Fav_helper = Fav_helper(context)
+    var rvHelper: RV_helper = RV_helper(context,"")
 
 
 
@@ -33,15 +33,12 @@ class QuestionAdapter(exampleList: ArrayList<Data>,context: Context) :
     inner class ViewHolder internal constructor(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         var questionTxt: TextView
-        var btnFav: ImageButton
+        var btnFav: ImageView
 
 
         init {
             questionTxt = itemView.findViewById(R.id.name_quiz)
             btnFav = itemView.findViewById(R.id.favorite_rv)
-
-
-
         }
     }
 
@@ -67,27 +64,24 @@ class QuestionAdapter(exampleList: ArrayList<Data>,context: Context) :
             intent.putExtra("option3", currentItem.option3)
             intent.putExtra("rightAnswer", currentItem.rightAnswer)
             intent.putExtra("explain", currentItem.explain)
-            intent.putExtra("explain", currentItem.fav)
+            intent.putExtra("fav", currentItem.fav)
             v.context.startActivity(intent)
         }
         holder.btnFav.setOnClickListener{
-//            rvHelper.insertFav(currentItem.question,currentItem.option1,currentItem.option2,currentItem.option3,currentItem.rightAnswer,currentItem.explain,currentItem.fav)
-//            notifyDataSetChanged()
-//           Toast.makeText(context,"added in favorite",Toast.LENGTH_LONG).show()
-//            rvHelper.close()
 
-//            if(currentItem.fav == "1") {
-//                holder.btnFav.setImageResource(R.drawable.favorite2)
-//                rvHelper.deleteFavItem(currentItem.question)
-//                Toast.makeText(context,"deleted favorite",Toast.LENGTH_LONG).show()
-//                notifyDataSetChanged()
-//            }
-//            else{
-//                currentItem.fav = "0"
-//                rvHelper.insertFav(currentItem.question,currentItem.option1,currentItem.option2,currentItem.option3,currentItem.rightAnswer,currentItem.explain,currentItem.fav)
-//                holder.btnFav.setImageResource(R.drawable.favorite1)
-//                notifyDataSetChanged()
-//            }
+            if(currentItem.fav == "1") {
+                holder.btnFav.setImageResource(R.drawable.favorite1)
+                rvHelper.deleteFavItem(currentItem.question)
+                Toast.makeText(context,"deleted favorite",Toast.LENGTH_LONG).show()
+                notifyDataSetChanged()
+            }
+            else{
+                currentItem.fav = "0"
+                    Toast.makeText(context,"added in favorite",Toast.LENGTH_LONG).show()
+                rvHelper.insertFav(currentItem.question,currentItem.option1,currentItem.option2,currentItem.option3,currentItem.rightAnswer,currentItem.explain,currentItem.fav)
+                holder.btnFav.setImageResource(R.drawable.favorite2)
+                notifyDataSetChanged()
+            }
         }
 
     }

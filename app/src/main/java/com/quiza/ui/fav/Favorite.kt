@@ -1,5 +1,6 @@
 package com.quiza.ui.fav
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -8,13 +9,14 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.quiza.R
+import com.quiza.ui.ExplainActivity
 import com.quiza.ui.rv.Data
 import com.quiza.ui.rv.QuestionAdapter
 import com.quiza.ui.rv.RV_helper
 
 class Favorite : AppCompatActivity() {
 
-    var myDB: Fav_helper? = null
+    var myDB: RV_helper? = null
     var list: ArrayList<Data>? = null
     var customAdapter: QuestionAdapter? = null
     var recyclerView: RecyclerView? = null
@@ -24,7 +26,7 @@ class Favorite : AppCompatActivity() {
 
 
         recyclerView = findViewById(R.id.recycler)
-        myDB = Fav_helper(this)
+        myDB = RV_helper(this,"fav")
         RV_helper.tab_name = "fav"
         list = ArrayList()
         showData(recyclerView)
@@ -36,10 +38,10 @@ class Favorite : AppCompatActivity() {
         try {
             list = myDB!!.allData
             customAdapter = list?.let { QuestionAdapter(it,this) }
+            customAdapter?.notifyDataSetChanged()
             recyclerView!!.hasFixedSize()
             recyclerView!!.layoutManager = LinearLayoutManager(this)
             recyclerView!!.adapter = customAdapter
-            //customAdapter?.notifyDataSetChanged()
         } catch (e: Exception) {
             Toast.makeText(this, "show data" + e.message + "fav", Toast.LENGTH_SHORT).show()
             e.printStackTrace()
@@ -52,4 +54,6 @@ class Favorite : AppCompatActivity() {
         list = null
         super.onDestroy()
     }
+
+
 }
