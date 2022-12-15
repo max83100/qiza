@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
 import com.quiza.R
 
@@ -77,7 +78,7 @@ class QuestionAdapter(exampleList: ArrayList<Data>,context: Context) :
             }
             else{
                 currentItem.fav = "0"
-                    Toast.makeText(context,"added in favorite",Toast.LENGTH_LONG).show()
+                Toast.makeText(context,"added in favorite",Toast.LENGTH_LONG).show()
                 rvHelper.insertFav(currentItem.question,currentItem.option1,currentItem.option2,currentItem.option3,currentItem.rightAnswer,currentItem.explain,currentItem.fav)
                 holder.btnFav.setImageResource(R.drawable.favorite2)
                 notifyDataSetChanged()
