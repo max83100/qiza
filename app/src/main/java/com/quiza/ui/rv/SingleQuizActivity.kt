@@ -99,24 +99,27 @@ class SingleQuizActivity : AppCompatActivity() {
         }
     }
 
+private fun favButton(){
+    favoriteBtn?.setOnClickListener{
+        if(favBundle == "1") {
+            favoriteBtn!!.setImageResource(R.drawable.favorite1)
+            rvHelper.deleteFavItem(questionBundle!!)
+            Toast.makeText(this,"deleted favorite",Toast.LENGTH_LONG).show()
+            rvHelper.close()
 
+        }
+        else{
+            favBundle = "0"
+            favoriteBtn!!.setImageResource(R.drawable.favorite2)
+            Toast.makeText(this,"added in favorite",Toast.LENGTH_LONG).show()
+            rvHelper.insertFav(questionBundle!!,option1Bundle!!,option2Bundle!!,option3Bundle!!,rvHelper.right_answer!!,explainBundle!!,favBundle!!)
+            rvHelper.close()
+        }
+    }
+}
     @SuppressLint("SetTextI18n")
     private fun showNextQuestion() {
-        favoriteBtn?.setOnClickListener{
-            if(favBundle == "1") {
-                favoriteBtn!!.setImageResource(R.drawable.favorite1)
-                rvHelper.deleteFavItem(questionBundle!!)
-                Toast.makeText(this,"deleted favorite",Toast.LENGTH_LONG).show()
-
-            }
-            else{
-                favBundle = "0"
-                favoriteBtn!!.setImageResource(R.drawable.favorite2)
-                Toast.makeText(this,"added in favorite",Toast.LENGTH_LONG).show()
-                rvHelper.insertFav(questionBundle!!,option1Bundle!!,option2Bundle!!,option3Bundle!!,rvHelper.right_answer!!,explainBundle!!,favBundle!!)
-                rvHelper.close()
-            }
-        }
+        favButton()
         explain?.setVisibility(View.GONE)
         rb1.setTextColor(Color.BLACK)
         rb2.setTextColor(Color.BLACK)
@@ -145,6 +148,7 @@ class SingleQuizActivity : AppCompatActivity() {
     }
 
     private fun showSolution() {
+
         rb1.setTextColor(Color.RED)
         rb2.setTextColor(Color.RED)
         rb3.setTextColor(Color.RED)
@@ -163,10 +167,12 @@ class SingleQuizActivity : AppCompatActivity() {
             }
         }
         if (questionCounter < questionCountTotal) {
+            favButton()
             confirmNext.text = "Вернуться к списку вопросов"
             confirmNext.setOnClickListener {
                 onBackPressed()
             }
+
             explain = findViewById(R.id.explain)
             explain!!.setVisibility(View.VISIBLE)
             explain?.setOnClickListener(View.OnClickListener {

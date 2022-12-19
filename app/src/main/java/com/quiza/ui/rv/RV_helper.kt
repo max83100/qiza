@@ -19,6 +19,7 @@ class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
     var question_text: String? = null
     var right_answer: Int? = 0
     var tab_name: String? = data
+    val db: SQLiteDatabase = this.getWritableDatabase()
     val allData: ArrayList<Data>?
         get() = try {
             val list = ArrayList<Data>()
@@ -81,9 +82,10 @@ class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
         setForcedUpgrade(1)
     }
 
-    fun insertFav(question_text: String,option1: String,option2: String,option3: String,right_answer: Int,explain: String,fav: String): Boolean{
-      val db: SQLiteDatabase = this.getWritableDatabase()
+    fun insertFav(question_text: String,option1: String,option2: String,option3: String,right_answer: Int,explain: String,fav: String){
+      //val db: SQLiteDatabase = this.getWritableDatabase()
         val cv = ContentValues()
+        //val cv1 = ContentValues()
         cv.put("question",question_text)
         cv.put("option1",option1)
         cv.put("option2",option2)
@@ -91,16 +93,30 @@ class RV_helper(var context: Context, data: String?) : SQLiteAssetHelper(
         cv.put("answer",right_answer)
         cv.put("explain",explain)
         cv.put("favorite","1")
+       // cv1.put("favorite","1")
         val res: Long = db.insert("fav",null,cv)
-        db.close()
-        return !res.equals(-1)
+        //val res1: Long = db.insert(tab_name,null,cv1)
+        //db.close()
+
+         //!res.equals(-1) //&& !res1.equals(-1)
+        if(res == -1.toLong())
+            Toast.makeText(context,"Failed",Toast.LENGTH_SHORT).show()
+        else
+            Toast.makeText(context,"Success",Toast.LENGTH_SHORT).show()
     }
 
     fun deleteFavItem(question_text: String): Int{
-        val db: SQLiteDatabase = this.getWritableDatabase()
+        //val db: SQLiteDatabase = this.getWritableDatabase()
+//        val cv = ContentValues()
+//        cv.put("favorite","0")
+//        val res: Long = db.insert(tab_name,null,cv)
         return db.delete("fav", "question=?", arrayOf(question_text.toString()))
-        db.close()
+        //db.close()
 
+    }
+    override fun close() {
+
+        db.close()
     }
 
 

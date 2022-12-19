@@ -72,8 +72,11 @@ class QuestionAdapter(exampleList: ArrayList<Data>,context: Context) :
 
             if(currentItem.fav == "1") {
                 holder.btnFav.setImageResource(R.drawable.favorite1)
+
                 rvHelper.deleteFavItem(currentItem.question)
                 Toast.makeText(context,"deleted favorite",Toast.LENGTH_LONG).show()
+
+                rvHelper.close()
                 notifyDataSetChanged()
             }
             else{
@@ -81,6 +84,7 @@ class QuestionAdapter(exampleList: ArrayList<Data>,context: Context) :
                 Toast.makeText(context,"added in favorite",Toast.LENGTH_LONG).show()
                 rvHelper.insertFav(currentItem.question,currentItem.option1,currentItem.option2,currentItem.option3,currentItem.rightAnswer,currentItem.explain,currentItem.fav)
                 holder.btnFav.setImageResource(R.drawable.favorite2)
+                rvHelper.close()
                 notifyDataSetChanged()
             }
         }

@@ -30,15 +30,6 @@ class QuestionRV : AppCompatActivity() {
     }
 
     fun showData(view: View?) {
-        if(myDB?.fav == "1"){
-           val favItem: ImageView = findViewById(R.id.favorite_rv)
-            favItem!!.setImageResource(R.drawable.favorite1)
-        }
-        else{
-            val favItem: ImageView = findViewById(R.id.favorite_rv)
-            favItem!!.setImageResource(R.drawable.favorite2)
-        }
-
         try {
             list = myDB!!.allData
             customAdapter = list?.let { QuestionAdapter(it,this) }
@@ -49,5 +40,13 @@ class QuestionRV : AppCompatActivity() {
             Toast.makeText(this, "show data" + e.message + data, Toast.LENGTH_SHORT).show()
             e.printStackTrace()
         }
+    }
+
+    override fun onDestroy() {
+        myDB?.close()
+        customAdapter = null
+        list = null
+        recyclerView = null
+        super.onDestroy()
     }
 }
